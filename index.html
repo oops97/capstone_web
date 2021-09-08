@@ -11,7 +11,79 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 
+		<script src="https://d3js.org/d3.v5.min.js"></script>
+		<script src="assets/js/chart_combination.js"></script>
+		<script src="assets/js/c3.js"></script>
+		<script src="assets/js/c3.min.js"></script>
+		<link href="assets/css/c3.css" rel="stylesheet">
+		<script src="assets/js/gauge.js"></script>
+
 		<link href="assets/css/css-circular-prog-bar.css" media="all" rel="stylesheet" />
+
+<!-- google chart start -->
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script type="text/javascript">
+		  google.charts.load('current', {'packages':['corechart']});
+		  google.charts.setOnLoadCallback(drawVisualization);
+	
+		  function drawVisualization() {
+			// Some raw data (not necessarily accurate)
+			var data = google.visualization.arrayToDataTable([
+			  ['Month', 'Bolivia', 'Average'],
+			  ['2004/05', 165, 165],
+			  ['2005/06', 135, 135],
+			  ['2006/07', 157, 157],
+			  ['2007/08', 139, 159],
+			  ['2008/09', 136, 156]
+			]);
+	
+			var options = {
+			  title : 'Monthly Coffee Production by Country',
+			  vAxis: {title: 'Cups'},
+			  hAxis: {title: 'Month'},
+			  seriesType: 'bars',
+			  series: {1: {type: 'line'}}
+			};
+			
+			var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+			chart.draw(data, options);
+
+			var test_data = [];
+			var index = [];
+			// var data1 = [];
+			// var data2 = [];
+			test_data[0][0] = 'test';
+			test_data[1][0] = '1';
+			test_data[2][0] = '2';
+			test_data[3][0] = '3';
+			test_data[0][1] = 'voltage';
+			test_data[1][1] = 100;
+			test_data[2][1] = 110;
+			test_data[3][1] = 120;
+			test_data[0][2] = 'current';
+			test_data[1][2] = 130;
+			test_data[2][2] = 140;
+			test_data[3][2] = 150;
+			index.push('test');
+			index.push('1');
+			index.push('2');
+			index.push('3');
+			// data1.push('voltage');
+			// data1.push(100);
+			// data1.push(110);
+			// data1.push(120);
+			// data2.push('current');
+			// data2.push(130);
+			// data2.push(140);
+			// data2.push(150);
+			// test_data[0].push(index);
+			// test_data[1].push(data1);
+			// test_data[2].push(data2);
+			alert(index);
+			chart.draw(google.visualization.arrayToDataTable(test_data), options);
+		  }
+		</script>
+<!-- google chart end -->
 
 		<style>
 			.c {
@@ -95,6 +167,19 @@
 			.total-weld-image-2 {				
 				height:30px;
 			}
+			.chart-txt {
+				padding: 6px 5px 1px 5px; 
+				background-color: #4696e5; 
+				font-family: Courier New; 
+				font-size: 20px; 
+				color: white;				
+			}
+			.chart {
+				background-color:rgb(225, 225, 225, 0.35); 
+				width:90%; 
+				height:240px; 
+				padding-top:10px;
+			}
 		</style>
 	</head>
 	<body class="is-preload">
@@ -113,9 +198,10 @@
 								<p style="font-size:28px; color:white;">용접 품질 모니터링 시스템</p>
 								</center>
 							</div> -->
-							<div style="display: block;">
+
+							
 								<header id="header">
-									<a href="index.html" class="logo"><strong>전체 용접 상태</strong></a>
+									<a href="#" class="logo"><strong><div id="main_txt">전체 용접 상태</div></strong></a>
 									<!-- <ul class="icons">
 										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
 										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
@@ -125,6 +211,8 @@
 									</ul> -->
 								</header>
 
+								<div id="menu_total" style="display: block;">
+
 								<button onclick="chartLoad_1()">Weld_1 Data Load</button>
 								<button onclick="chartLoad_2()">Weld_2 Data Load</button>
 								<button onclick="chartLoad_3()">Weld_3 Data Load</button>
@@ -132,7 +220,7 @@
 								<br>
 								
 								
-								<br>
+								<br>								
 								<div style="height: 30px; padding-top: 5px; font-size: 22px; color: black; text-align:center;"><strong>
 									<div style="width: 15%;	float: left;">
 										용접기
@@ -270,8 +358,176 @@
 								<hr>
 							</div>
 
+							<!-- sub menu weld-1 -->
+							<div id="menu_weld_1" style="display:none">
+								<div style="height:80px; margin-top:30px">
+									<div style="width:50%; float:left; height:60px;">
+										<h2 class="chart-txt" style="width:20%"><center>전압</center></h2>
+									</div>
+									<div style="width:50%; float:left; height:60px;">
+										<h2 class="chart-txt" style="width:20%"><center>전류</center></h2>
+									</div>
+								</div>
+								<div style="height:240px;">
+									<div style="width:50%; float:left;">
+										<div id="chart_1_1" class="chart"></div>
+									</div>
+									<div style="width:50%; float:left;">
+										<div id="chart_1_2" class="chart"></div>
+									</div>
+								</div>
+								<hr>
+								<div style="height:80px; margin-top:30px">
+									<div style="width:50%; float:left;">
+										<h2 class="chart-txt" style="width:25%"><center>보호가스</center></h2>
+									</div>
+									<div style="width:50%; float:left;">
+										<h2 class="chart-txt" style="width:35%"><center>와이어 송급속도</center></h2>
+									</div>
+								</div>
+								<div style="height:240px;">
+									<div style="width:50%; float:left;">
+										<div id="chart_1_3" class="chart"></div>
+									</div>
+									<div style="width:50%; float:left;">
+										<div id="chart_1_4" class="chart"></div>
+									</div>
+								</div>
+								<div>
+									
+								</div>
+							</div>
+
+							<!-- sub menu weld-2 -->
+							<div id="menu_weld_2" style="display:none">
+								<div style="height:80px; margin-top:30px">
+									<div style="width:50%; float:left; height:60px;">
+										<h2 class="chart-txt" style="width:20%"><center>전압</center></h2>
+									</div>
+									<div style="width:50%; float:left; height:60px;">
+										<h2 class="chart-txt" style="width:20%"><center>전류</center></h2>
+									</div>
+								</div>
+								<div style="height:240px;">
+									<div style="width:50%; float:left;">
+										<div id="chart_2_1" class="chart"></div>
+									</div>
+									<div style="width:50%; float:left;">
+										<div id="chart_2_2" class="chart"></div>
+									</div>
+								</div>
+								<hr>
+								<div style="height:80px; margin-top:30px">
+									<div style="width:50%; float:left;">
+										<h2 class="chart-txt" style="width:25%"><center>보호가스</center></h2>
+									</div>
+									<div style="width:50%; float:left;">
+										<h2 class="chart-txt" style="width:35%"><center>와이어 송급속도</center></h2>
+									</div>
+								</div>
+								<div style="height:240px;">
+									<div style="width:50%; float:left;">
+										<div id="chart_2_3" class="chart"></div>
+									</div>
+									<div style="width:50%; float:left;">
+										<div id="chart_2_4" class="chart"></div>
+									</div>
+								</div>
+								<div>
+									
+								</div>
+							</div>							
+
+							<!-- sub menu weld-3 -->
+							<div id="menu_weld_3" style="display:none">
+								<div style="height:80px; margin-top:30px">
+									<div style="width:50%; float:left; height:60px;">
+										<h2 class="chart-txt" style="width:20%"><center>전압</center></h2>
+									</div>
+									<div style="width:50%; float:left; height:60px;">
+										<h2 class="chart-txt" style="width:20%"><center>전류</center></h2>
+									</div>
+								</div>
+								<div style="height:240px;">
+									<div style="width:50%; float:left;">
+										<div id="chart_3_1" class="chart"></div>
+									</div>
+									<div style="width:50%; float:left;">
+										<div id="chart_3_2" class="chart"></div>
+									</div>
+								</div>
+								<hr>
+								<div style="height:80px; margin-top:30px">
+									<div style="width:50%; float:left;">
+										<h2 class="chart-txt" style="width:25%"><center>보호가스</center></h2>
+									</div>
+									<div style="width:50%; float:left;">
+										<h2 class="chart-txt" style="width:35%"><center>와이어 송급속도</center></h2>
+									</div>
+								</div>
+								<div style="height:240px;">
+									<div style="width:50%; float:left;">
+										<div id="chart_3_3" class="chart"></div>
+									</div>
+									<div style="width:50%; float:left;">
+										<div id="chart_3_4" class="chart"></div>
+									</div>
+								</div>
+								<div>
+									
+								</div>
+							</div>							
+
+							<!-- sub menu weld-4 -->
+							<div id="menu_weld_4" style="display:none">
+								<div style="height:80px; margin-top:30px">
+									<div style="width:50%; float:left; height:60px;">
+										<h2 class="chart-txt" style="width:20%"><center>전압</center></h2>
+									</div>
+									<div style="width:50%; float:left; height:60px;">
+										<h2 class="chart-txt" style="width:20%"><center>전류</center></h2>
+									</div>
+								</div>
+								<div style="height:240px;">
+									<div style="width:50%; float:left;">
+										<div id="chart_4_1" class="chart"></div>
+									</div>
+									<div style="width:50%; float:left;">
+										<div id="chart_4_2" class="chart"></div>
+									</div>
+								</div>
+								<hr>
+								<div style="height:80px; margin-top:30px">
+									<div style="width:50%; float:left;">
+										<h2 class="chart-txt" style="width:25%"><center>보호가스</center></h2>
+									</div>
+									<div style="width:50%; float:left;">
+										<h2 class="chart-txt" style="width:35%"><center>와이어 송급속도</center></h2>
+									</div>
+								</div>
+								<div style="height:240px;">
+									<div style="width:50%; float:left;">
+										<div id="chart_4_3" class="chart"></div>
+									</div>
+									<div style="width:50%; float:left;">
+										<div id="chart_4_4" class="chart"></div>
+									</div>
+								</div>
+								<div>
+									
+								</div>
+							</div>							
+
+							<!-- sub menu 작업현장 -->
+
+							<div id="chart_div" style="width: 80%; height:500px"></div>
+
+							<div id="menu_video" style="display:none">
+								<br><br>
+								<div><center><video width="95%" src="./welding.mp4" autoplay muted loop></video></center></div>								
+							</div>
 							<!-- Banner -->
-								<section id="banner">
+								<!-- <section id="banner">
 									<div class="content">
 										<header>
 											<h1>Hi, I’m Editorial<br />
@@ -286,7 +542,7 @@
 									<span class="image object">
 										<img src="images/pic10.jpg" alt="" />
 									</span>
-								</section>
+								</section> -->
 
 						</div>
 					</div>
@@ -306,13 +562,13 @@
 									</header>
 									<br>
 									<ul>
-										<li><a href="index.html">전체 용접 상태</a></li>
-										<li><a href="generic.html">용접1</a></li>
-										<li><a href="elements.html">용접2</a></li>
-										<li><a href="#">용접3</a></li>
-										<li><a href="#">용접4</a></li>
-										<li><a href="#">작업현장</a></li>
-									</ul><br><br><br><br><br><br><br><br>									
+										<li><a href="#"><div onclick="menu_total()">전체 용접 상태</div></a></li>
+										<li><a href="#"><div onclick="menu_weld_1()">용접1</div></a></li>
+										<li><a href="#"><div onclick="menu_weld_2()">용접2</div></a></li>
+										<li><a href="#"><div onclick="menu_weld_3()">용접3</div></a></li>
+										<li><a href="#"><div onclick="menu_weld_4()">용접4</div></a></li>
+										<li><a href="#"><div onclick="menu_video()">작업현장</div></a></li>
+									</ul><br><br><br><br><br><br><br>									
 								</nav>
 						
 
@@ -1717,7 +1973,63 @@
 					}
 				});
 			</script>
-
+<!-- 작업현장 -->
+			<script>
+				function menu_total() {
+					document.getElementById('main_txt').innerText = '전체 용접 상태';
+					document.getElementById('menu_total').style.display = 'block';
+					document.getElementById('menu_weld_1').style.display = 'none';
+					document.getElementById('menu_weld_2').style.display = 'none';
+					document.getElementById('menu_weld_3').style.display = 'none';
+					document.getElementById('menu_weld_4').style.display = 'none';
+					document.getElementById('menu_video').style.display = 'none';
+				}
+				function menu_weld_1() {
+					document.getElementById('main_txt').innerText = '용접1';
+					document.getElementById('menu_total').style.display = 'none';
+					document.getElementById('menu_weld_1').style.display = 'block';
+					document.getElementById('menu_weld_2').style.display = 'none';
+					document.getElementById('menu_weld_3').style.display = 'none';
+					document.getElementById('menu_weld_4').style.display = 'none';
+					document.getElementById('menu_video').style.display = 'none';
+				}
+				function menu_weld_2() {
+					document.getElementById('main_txt').innerText = '용접2';
+					document.getElementById('menu_total').style.display = 'none';
+					document.getElementById('menu_weld_1').style.display = 'none';
+					document.getElementById('menu_weld_2').style.display = 'block';
+					document.getElementById('menu_weld_3').style.display = 'none';
+					document.getElementById('menu_weld_4').style.display = 'none';
+					document.getElementById('menu_video').style.display = 'none';
+				}
+				function menu_weld_3() {
+					document.getElementById('main_txt').innerText = '용접3';
+					document.getElementById('menu_total').style.display = 'none';
+					document.getElementById('menu_weld_1').style.display = 'none';
+					document.getElementById('menu_weld_2').style.display = 'none';
+					document.getElementById('menu_weld_3').style.display = 'block';
+					document.getElementById('menu_weld_4').style.display = 'none';
+					document.getElementById('menu_video').style.display = 'none';
+				}
+				function menu_weld_4() {
+					document.getElementById('main_txt').innerText = '용접4';
+					document.getElementById('menu_total').style.display = 'none';
+					document.getElementById('menu_weld_1').style.display = 'none';
+					document.getElementById('menu_weld_2').style.display = 'none';
+					document.getElementById('menu_weld_3').style.display = 'none';
+					document.getElementById('menu_weld_4').style.display = 'block';
+					document.getElementById('menu_video').style.display = 'none';
+				}
+				function menu_video() {
+					document.getElementById('main_txt').innerText = '작업 현장';
+					document.getElementById('menu_total').style.display = 'none';
+					document.getElementById('menu_weld_1').style.display = 'none';
+					document.getElementById('menu_weld_2').style.display = 'none';
+					document.getElementById('menu_weld_3').style.display = 'none';
+					document.getElementById('menu_weld_4').style.display = 'none';
+					document.getElementById('menu_video').style.display = 'block';
+				}
+			</script>
 
 	</body>
 </html>
